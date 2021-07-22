@@ -23,10 +23,10 @@ EnergyMonitor emon;
 
 BlynkTimer timer;
 
-char auth[] = "sUqvrFO__RChzEwI59y_Y9x6fA55WQw5";
+char auth[] = "";
 
 char ssid[] = "D-link EXT";
-char pass[] = "KadirOm@d-link100ext";
+char pass[] = "";
 
 const char* UNITS_INPUT = "unitsinput";
 const char* CALIBRATION_INPUT = "calibinput";
@@ -149,15 +149,7 @@ void calc_all(){
   Power=Irms*Volt_input;
   Serial.print(millis()-lastmillis);
   
-//  lasttimemillis+=millis()-lastmillis;
-//  Serial.print("\t");
-//  Serial.print(lasttimemillis);
-//  Serial.print("\t");
-//  Serial.print(times);
-//  Serial.print("\t");
-//  Serial.print(lasttimemillis/times);
-//  times++;
-  
+
   Serial.print("\tUnits Consumed: ");
   kWh = kWh + (Power) * (millis()-lastmillis) / 3600000000.0;
   lastmillis = millis();
@@ -183,76 +175,21 @@ void calc_all(){
   {
     price = 150 - 150 + 350 + 1380 + ((kWh - 500) * 6.60) + 50;
   }
-//  Blynk.virtualWrite(V4, price);
 
-//  // LED Display
-//  if (Irms < 3)
-//  {
-//    pinMode(0, OUTPUT);
-//  }
-//  else if (Irms < 5)
-//  {
-//    pinMode(1, OUTPUT);
-//  }
-//  else if (Irms < 8)
-//  {
-//    pinMode(2, OUTPUT);
-//  }
-//  else if (Irms > 8)
-//  {
-//    pinMode(3, OUTPUT);
-//  }
-//writeFile(SPIFFS, "/StoreUnits.txt", kWh);
 delay(1000);
 }
 
 void myTimerEvent() {
-//  Serial.println("MyTimerEvent started");
+
   Blynk.virtualWrite(V0, analogRead(A0));
-//  double Irms = emon.calcIrms(1480);
-//  Current=Irms;
+
   Blynk.virtualWrite(V1, Current);
-//  Serial.print("\tIrms: ");
-//  Serial.println(Irms, 6);
+
   Blynk.virtualWrite(V2, Power);
-//  Serial.print("\tkWh: ");
-//  Serial.println(Irms * Volt_input, 6);
-//  Power=Irms*Volt_input;
-//  Serial.print(millis()-lastmillis);
-  
-//  lasttimemillis+=millis()-lastmillis;
-//  Serial.print("\t");
-//  Serial.print(lasttimemillis);
-//  Serial.print("\t");
-//  Serial.print(times);
-//  Serial.print("\t");
-//  Serial.print(lasttimemillis/times);
-//  times++;
-  
-//  Serial.print("\tUnits Consumed: ");
-//  kWh = kWh + (Power) * (5640) / 3600000000.0;
-//  Serial.print(kWh, 4);
-//  Serial.println(" Units");
+
   Blynk.virtualWrite(V3, kWh);
-//  Serial.print("\tCalibration: ");
-//  Serial.print(currCalibration_input);
-  /*     Type code for Price calculation  */
-//  if (kWh >= 0 and kWh <= 100)
-//  {
-//    price = 0;
-//  }
-//  else if (kWh > 100 and kWh <= 200)
-//  {
-//    price = (kWh * 1.50) + 20;
-//  }
-//  else if (kWh > 200 and kWh <= 500)
-//  {
-//    price = 150 - 150 + 200 + ((kWh - 200) * 3.0) + 30;
-//  }
-//  else
-//  {
-//    price = 150 - 150 + 350 + 1380 + ((kWh - 500) * 6.60) + 50;
-//  }
+
+
   Blynk.virtualWrite(V4, price);
 
 //  // LED Display
@@ -397,14 +334,6 @@ void setup() {
   thing.SetWiFi(ssid,pass);
   thing.initDevice();
   Serial.println("Booting");
-//   if(MDNS.begin("ESP")){
-//    Serial.println("MDNS Started");
-//    }else{
-//    Serial.println("MDNS Failed");  
-//      }
-//  WiFi.softAP("EnergyMonitor","");
-//  Serial.println("SoftAP Started ");
-//  Serial.println(WiFi.softAPIP()); //192.168.4.1
   
   if(!SPIFFS.begin()){
       Serial.println("An Error has occurred while mounting SPIFFS");
@@ -560,16 +489,7 @@ void setup() {
 }
 
 void loop() {
-//  Serial.print("\n");
-//  Serial.print(millis()-loopmillis);
-//  looptimemillis+=millis()-lastmillis;
-//  Serial.print("\t");
-//  Serial.print(looptimemillis);
-//  Serial.print("\t");
-//  Serial.print(looptimes);
-//  Serial.print("\t");
-//  Serial.print(loopmillis/looptimes);
-//  looptimes++;
+
   MDNS.update();
   ArduinoOTA.handle();
   calc_all();
